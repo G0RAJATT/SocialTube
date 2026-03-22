@@ -237,7 +237,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         console.log("ACCESS:", process.env.ACCESS_TOKEN_EXPIRY);
 
         return res.status(200)
-            
+        .cookie("accessToken", accessToken, { ...options,
+                 maxAge: ms(process.env.ACCESS_TOKEN_EXPIRY) })
+            .cookie("refreshToken", newRefreshToken, {...options ,
+                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})       
             .json(
                 new ApiResponse(
                     200,
