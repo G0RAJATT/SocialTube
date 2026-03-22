@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
 import Video from "../models/video.model.js";
+import ms from "ms";
 
 // access and refresh token genrator method
 const generateAccessAndRefreshTokens = async (userId) => {
