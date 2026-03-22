@@ -234,6 +234,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
         const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id)
 
+        console.log("ACCESS:", process.env.ACCESS_TOKEN_EXPIRY);
 
         return res.status(200)
             .cookie("accessToken", accessToken, { ...options,
