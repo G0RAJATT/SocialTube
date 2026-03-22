@@ -159,7 +159,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        sameSite: "None"
+        sameSite: "None",
     }
 
     return res.status(200)
@@ -235,8 +235,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 
         return res.status(200)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("accessToken", accessToken, { ...options, maxAge: process.env.ACCESS_TOKEN_EXPIRY })
+            .cookie("refreshToken", newRefreshToken, {...options , maxAge: process.env.REFRESH_TOKEN_EXPIRY})
             .json(
                 new ApiResponse(
                     200,
