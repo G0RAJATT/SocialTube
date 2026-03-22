@@ -6,6 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
 import Video from "../models/video.model.js";
+import ms from "ms";
 
 // access and refresh token genrator method
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -235,8 +236,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 
         return res.status(200)
-            .cookie("accessToken", accessToken, { ...options, maxAge: process.env.ACCESS_TOKEN_EXPIRY })
-            .cookie("refreshToken", newRefreshToken, {...options , maxAge: process.env.REFRESH_TOKEN_EXPIRY})
+            .cookie("accessToken", accessToken, { ...options,
+                 maxAge: ms(process.env.ACCESS_TOKEN_EXPIRY) })
+            .cookie("refreshToken", newRefreshToken, {...options ,
+                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})
             .json(
                 new ApiResponse(
                     200,
