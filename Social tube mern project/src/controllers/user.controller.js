@@ -32,7 +32,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
 const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "None"
+    sameSite: "None",
+    path: "/"
 }
 
 // user controllers
@@ -160,6 +161,7 @@ const loginUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
+        path: "/"
     }
 
     return res.status(200)
