@@ -31,8 +31,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
 // options method for secure cookies
 const options = {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax"
+    secure: true,
+    sameSite: "None"
 }
 
 // user controllers
