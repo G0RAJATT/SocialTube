@@ -15,7 +15,7 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-//Routes import
+//Routes import statement
 
 import userRouter from './routes/user.routes.js'
 import videoRouter from './routes/video.routes.js'
