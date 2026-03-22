@@ -6,7 +6,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
 import Video from "../models/video.model.js";
-import ms from "ms";
 
 // access and refresh token genrator method
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -202,10 +201,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 
     return res.status(200)
-         .cookie("accessToken", accessToken, { ...options,
-                 maxAge: ms(process.env.ACCESS_TOKEN_EXPIRY) })
-            .cookie("refreshToken", newRefreshToken, {...options ,
-                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})   
+        .clearCookie("accessToken", options)
+        .clearCookie("refrehToken", options)
         .json(new ApiResponse(200, {}, "User logges out"))
 
 })
@@ -238,13 +235,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
         const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id)
 
-        console.log("ACCESS:", process.env.ACCESS_TOKEN_EXPIRY);
 
         return res.status(200)
-        .cookie("accessToken", accessToken, { ...options,
+             .cookie("accessToken", accessToken, { ...options,
                  maxAge: ms(process.env.ACCESS_TOKEN_EXPIRY) })
             .cookie("refreshToken", newRefreshToken, {...options ,
-                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})       
+                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})   
             .json(
                 new ApiResponse(
                     200,
