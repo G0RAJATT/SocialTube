@@ -164,8 +164,10 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     return res.status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, { ...options,
+                 maxAge: ms(process.env.ACCESS_TOKEN_EXPIRY) })
+            .cookie("refreshToken", refreshToken, {...options ,
+                 maxAge: ms(process.env.REFRESH_TOKEN_EXPIRY)})   
         .json(
             new ApiResponse(
                 200,
