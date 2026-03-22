@@ -2,7 +2,7 @@ import AuthUserForm from "./usersComponents/AuthUserForm.jsx";
 import ChangePassword from "./usersComponents/ChangePassword";
 import ChannelCustomization from "./usersComponents/ChannelCustomization.jsx";
 import RegisterUserForm from "./usersComponents/RegisterUserForm.jsx"; 
-import PublishAVideo from "./video/publishAVideo.jsx";
+import PublishAVideo from "../Components/video/PublishAVideo.jsx";
 import UpdateVideo from "./video/UpdateVideo.jsx";
 import Navbar from "./Homepage/Navbar.jsx";
 import LeftPanel from "../Components/Homepage/LeftPanel.jsx";
