@@ -14,6 +14,9 @@ export default function CommentSection({videoId}) {
   const user = useSelector((state) => state.user.user);
   const commentLike = useSelector((state) => state.like.commentLike);
 
+
+  const [visibleComments, setVisibleComments] = useState(1);
+
   const dispatch = useDispatch();
 
 
@@ -54,8 +57,20 @@ export default function CommentSection({videoId}) {
   } , [commentObj])
 
 
+  const handelShowMoreComments = () => {
+  
+    if(visibleComments >= AllComments.length){
+      setVisibleComments(1);
+    }
+    else{
+      setVisibleComments((prev) => prev +5);
+    }
+
+  }
+
+
   return (
-    <div className="w-full flex flex-col gap-6 mt-8">
+    <div className="w-full flex flex-col gap-6 mt-3">
 
       {/* Comment Count */}
       <h2 className="text-white text-lg font-semibold">
@@ -116,11 +131,19 @@ export default function CommentSection({videoId}) {
       </div>
 
       {/* Comments List */}
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 ">
 
-        {AllComments.map( (comment) => (<CommentCard key={comment._id} comment={comment} commentLike={commentLike?.[comment._id]} ></CommentCard>))}
+        {AllComments.slice(0, visibleComments).map( (comment) => (<CommentCard key={comment._id} comment={comment} commentLike={commentLike?.[comment._id]} ></CommentCard>))}
 
       </div>
+
+      {/* Show More Button */}
+
+      <button 
+      className="text-sm text-white font-medium mt-2 w-fit ml-auto mr-2 hover:text-zinc-300 transition cursor-pointer"
+      onClick={handelShowMoreComments}>
+        {AllComments.length >1 ?(visibleComments >= AllComments.length ? "show less" : "show more") : "no more comments"}
+      </button>
 
     </div>
   );

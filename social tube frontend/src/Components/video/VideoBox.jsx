@@ -69,7 +69,7 @@ export default function VideoBox({ video, nextVideo, playlistObj }) {
             </div>
 
             {/* 📌 Title + Channel + Actions */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 pl-2 ">
 
                 {/* Title */}
                 <h1 className="text-white text-xl font-semibold leading-snug">
@@ -148,7 +148,8 @@ export default function VideoBox({ video, nextVideo, playlistObj }) {
             </div>
 
             {/* 📄 Description Section */}
-            <div className="bg-zinc-900 rounded-2xl p-4 flex flex-col gap-3">
+        <div className="p-2">
+            <div className="bg-zinc-900 rounded-2xl p-2 flex flex-col gap-3">
 
                 {/* Views + Time */}
                 <div className="text-sm text-zinc-400">
@@ -181,6 +182,7 @@ export default function VideoBox({ video, nextVideo, playlistObj }) {
                         </span>
                     </div>
 
+                </div>
                 </div>
 
                 {/* Channel Info (Repeated inside description bottom) */}
