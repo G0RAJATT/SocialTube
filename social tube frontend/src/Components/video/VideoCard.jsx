@@ -114,9 +114,9 @@ export default function VideoCard({ video }) {
 
   }
 
-
+ 
   return (
-    <div className={`w-full max-w-sm transition-transform duration-200 hover:-translate-y-1 relative ${openMenuVideoId === video?._id ? "z-50" : "z-0"}`}>
+    <div className={`w-full max-w-4xl transition-transform duration-200 hover:-translate-y-1 relative ${openMenuVideoId === video?._id ? "z-50" : "z-0"}`}>
 
       {/* Thumbnail Section */}
       <NavLink to={`/video/${videoId}`}>
@@ -125,7 +125,7 @@ export default function VideoCard({ video }) {
           <img
             src={thumbnail}
             alt="thumbnail"
-            className="w-full h-56 object-cover group-hover:scale-105 transition duration-300"
+            className="w-full h-64 object-cover group-hover:scale-105 transition duration-300"
           />
 
           {/* Duration Badge */}

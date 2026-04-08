@@ -12,7 +12,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Navbar() {
+export default function Navbar({toggleMenu}) {
   const [openCreate, setOpenCreate] = useState(false);
   const [avatar, setAvatar] = useState("https://i.pinimg.com/736x/b0/8e/19/b08e19da8ac6cec9cc3630d4b79893a0.jpg");
 
@@ -49,7 +49,10 @@ export default function Navbar() {
 
         {/* LEFT */}
         <div className="flex items-center gap-3">
-          <button className="p-2 rounded-full hover:bg-white/10">
+          <button 
+          className="p-2 rounded-full hover:bg-white/10"
+          onClick={toggleMenu}
+          >
             <Menu className="w-6 h-6 text-white" />
           </button>
 

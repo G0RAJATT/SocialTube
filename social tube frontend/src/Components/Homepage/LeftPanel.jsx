@@ -16,13 +16,21 @@ const navBase =
 const navActive =
   "bg-[#1f1f1f] text-white hover:bg-[#262626]";
 
-export default function LeftPanel() {
-  
-const user = useSelector((state) => state.user.user)
-const channelId = user?._id;
+export default function LeftPanel({ openMenu }) {
+
+  const user = useSelector((state) => state.user.user)
+  const channelId = user?._id;
 
   return (
-    <aside className="w-64 h-[calc(100vh-64px)] sticky top-16 bg-black border-r border-[#1f1f1f] overflow-y-auto">
+    <aside
+      className={`fixed top-16 left-0 h-[calc(100vh-64px)] w-64 bg-black border-r border-[#1f1f1f] overflow-y-auto 
+        z-60 transform transition-transform duration-300 shadow-xl
+
+    ${openMenu ? "translate-x-0" : "-translate-x-full hidden"}
+
+     md:static md:translate-x-0 md:z-auto
+  `}
+    >
       {/* IMPORTANT: flex + gap instead of space-y */}
       <div className="p-2 flex flex-col gap-2">
 

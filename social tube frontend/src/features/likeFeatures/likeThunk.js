@@ -65,6 +65,8 @@ export const getTotalCommentLikes = createAsyncThunk("likes/getTotalCommentLikes
     async (videoId, thunkAPI) => {
         try {
             const res = await api.get(`/likes/liked-comments/${videoId}`, {})
+            console.log("videoId" ,videoId);
+            
             return res.data;
         }
         catch (error) {

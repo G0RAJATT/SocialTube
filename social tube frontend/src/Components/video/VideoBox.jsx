@@ -18,6 +18,9 @@ export default function VideoBox({ video, nextVideo, playlistObj }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    console.log("video:" , video);
+    
+
 
     useEffect(() => {
 

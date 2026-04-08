@@ -139,6 +139,7 @@ export const getUserHistory = createAsyncThunk("users/getUserHistory",
 
       try {
 
+        console.log(api.defaults.withCredentials);
         const res = await api.get("/users/watch-history");      
         return res.data;
         
