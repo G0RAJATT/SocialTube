@@ -120,7 +120,7 @@ export default function VideoCard({ video }) {
 
       {/* Thumbnail Section */}
       <NavLink to={`/video/${videoId}`}>
-        <div className="relative rounded-xl overflow-hidden bg-zinc-900 group">
+        <div className="relative  overflow-hidden bg-zinc-900 group md:rounded-xl">
 
           <img
             src={thumbnail}
@@ -148,7 +148,7 @@ export default function VideoCard({ video }) {
           <img
             src={avatar}
             alt="channel avatar"
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover ml-2 md:ml-0"
           />
         </NavLink>
 
@@ -179,7 +179,7 @@ export default function VideoCard({ video }) {
         </div>
 
         {/* Three Dot Menu */}
-        <div className="relative z-50">
+        <div className="relative z-50 mr-2 md:mr-0">
 
           <button
             onClick={(e) => (handelShowMenu(e))}

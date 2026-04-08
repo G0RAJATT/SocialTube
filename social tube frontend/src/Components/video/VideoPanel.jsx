@@ -27,12 +27,12 @@ export default function VideoPanel() {
   return (
     <div
       className="
-       max-w-350 mx-auto flex-1 h-[calc(100vh-64px)] overflow-visible bg-black px-6 py-6"
+       max-w-350 mx-auto flex-1 h-[calc(100vh-64px)] overflow-visible bg-black px-0 py-6 md:px-6"
     >
       {/* Video Grid */}
     <div
     className="
-      grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 overflow-visible
+      grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-8 overflow-visible md:gap-x-6
     "
 >
         {/* Temporary static cards */}
