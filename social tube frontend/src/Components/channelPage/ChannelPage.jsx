@@ -60,7 +60,7 @@ export default function ChannelPage() {
             </h1>
 
             <div className="text-sm text-zinc-400">
-             {user?.username || "channelhandle"} • 120K subscribers • {user?.videos?.length || 0} videos
+             {user?.username || "channelhandle"} • {user?.subscribersCount} subscribers • {user?.videos?.length || 0} videos
             </div>
 
             {/* <p className="text-sm text-zinc-300 max-w-xl">
