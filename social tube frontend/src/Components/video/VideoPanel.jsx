@@ -8,7 +8,6 @@ export default function VideoPanel() {
 
 
   const AllVideos = useSelector( (state) => state.video.AllVideos)
-  const lastAction = useSelector( (state) => state.video.lastAction)
 
   const dispatch = useDispatch()
 
