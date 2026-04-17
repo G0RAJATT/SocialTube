@@ -16,7 +16,8 @@ export default function VideoPage() {
   const videoObj = useSelector((state) => state.video.videoObj)
   const playlistObj = useSelector((state) => state.playlist.playlistObj);
 
-
+  console.log("playlist obj" , playlistObj);
+  
 
   const dispatch = useDispatch();
 
@@ -85,7 +86,7 @@ export default function VideoPage() {
           {/* Right Section (Suggestions) */}
           <div className="w-90 shrink-0 flex flex-col gap-4">
 
-            {playlistId && (
+            {playlistId && playlistId!= undefined && (
               <div className="bg-black border border-zinc-800 rounded-xl flex flex-col max-h-105 ">
 
                 {/* Header */}

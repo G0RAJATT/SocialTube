@@ -7,13 +7,13 @@ import { getTotalVideoLikes, toggleVideoLike } from "../../features/likeFeatures
 import { VscThumbsup, VscThumbsupFilled } from "react-icons/vsc";
 
 
-export default function VideoBox({ video, nextVideo, playlistObj }) {
+export default function VideoBox({ video, nextVideo }) {
     const [showMore, setShowMore] = useState(false);
 
     const like = useSelector((state) => state.like.like);
     const {videoId} = useParams();
 
-    
+    const {playlistId} = useParams();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,13 +53,16 @@ export default function VideoBox({ video, nextVideo, playlistObj }) {
                         src={video?.videoFile}   // <-- place your video URL variable here
                         controls
                         autoPlay
+                        
                         className="w-full h-full object-contain bg-black"
                         onEnded={() => {
                             console.log(nextVideo);
-
-                            if (nextVideo) {
+                            
+                            if (nextVideo && playlistId) {
                                 // Navigate(`/video/${nextVideo}/${playlistObj?._id}`)
-                                navigate(`/video/${nextVideo}/${playlistObj?._id}`)
+                                navigate(`/video/${nextVideo}/${playlistId}`)
+                                console.log("playlistId: " , playlistId);
+                                
                             }
 
                             if (!nextVideo) return

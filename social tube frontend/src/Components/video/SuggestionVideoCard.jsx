@@ -44,7 +44,7 @@ export default function SuggestionVideoCard({video , playlistObj}) {
     <div className={`flex gap-3 w-full relative group ${videoId == video._id && playlistObj ? 'bg-zinc-800 rounded-tl-xl rounded-bl-xl' : ''}`}>
 
       {/* Thumbnail */}
-      <NavLink to={`${ playlistId ? `/video/${video._id}/${playlistId}`: `/video/${video._id}`}`} className="relative min-w-42">
+      <NavLink to={`/video/${video._id}`} className="relative min-w-42">
         <div className="w-42 h-23.5 bg-zinc-900 overflow-hidden md:rounded-xl ">
           <img
             src={video.thumbnail}
