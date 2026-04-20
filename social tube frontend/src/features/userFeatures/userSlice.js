@@ -5,6 +5,7 @@ import {
     getCurrentUser,
     getUserHistory,
     LoginUser,
+    logoutUser,
     RegisterUser,
     updateAccount,
     updateAvatar,
@@ -14,6 +15,7 @@ import {
 const initialState = {
 
     user: null,
+    channel:null,
     isAuthenticated: false,
     loading: true,
     error: null,
@@ -33,7 +35,7 @@ const userSlice = createSlice({
         builder
 
             // ----  Register User ---- //
-
+            
             .addCase(RegisterUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -172,7 +174,7 @@ const userSlice = createSlice({
             .addCase(getChannelProfile.fulfilled , (state , action) => {
                 state.loading = false;
                 state.error = null;
-                state.user = action.payload.data;
+                state.channel = action.payload.data;
                 state.lastAction = "Channel Profile Fetched";
             })
 
@@ -229,6 +231,29 @@ const userSlice = createSlice({
                 state.error = action.payload.data;
                 state.isAuthenticated = false;
                 state.lastAction = "get current user";
+            })
+
+
+            // --- Logout user --- //
+
+            .addCase(logoutUser.pending , (state) => {
+
+                state.loading = true;
+                state.error = null;
+            })
+
+            .addCase(logoutUser.fulfilled , (state , action) => {
+                state.loading = false;
+                state.error = null;
+                state.user = null;
+                state.isAuthenticated = false;
+                state.lastAction = "logout success";
+            })
+
+            .addCase(logoutUser.rejected , (state , action) => {
+                state.loading = false;
+                state.error = action.payload.data || "Logout failed";
+                state.lastAction = "logout failed"; 
             })
     } 
 })

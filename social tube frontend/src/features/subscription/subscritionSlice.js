@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { isUserSubscribed } from "./subscriptionThunk";
+import { isUserSubscribed, toggleSubscription } from "./subscriptionThunk";
 
 
 
-const inititalState = {
+const initialState = {
     subscription: null,
     loading: false,
     error: null,
@@ -11,11 +11,12 @@ const inititalState = {
 
 const subscriptionSlice = createSlice({
     name: "subscriptions",
-    initialState: inititalState,
+    initialState,
     reducers: {
+
     },
 
-    extraReucers: (builder) => {
+    extraReducers: (builder) => {
 
         builder
 
@@ -24,14 +25,14 @@ const subscriptionSlice = createSlice({
         .addCase(isUserSubscribed.pending , (state) => {
             state.loading = true;
             state.error = null;
+            console.log("In loading state");
+            
         })
 
         .addCase(isUserSubscribed.fulfilled , (state , action) => {
             state.loading = false;
             state.error = null;
             state.subscription = action.payload.data;
-            console.log("subscription" , state.subscription);
-            
         })
 
         .addCase(isUserSubscribed.rejected , (state , action) => {
@@ -39,6 +40,23 @@ const subscriptionSlice = createSlice({
             state.error = action.payload.data || "Failed to check subscription status";
         })
 
+        // ---- Toggle Subscription ---- //
+
+        .addCase(toggleSubscription.pending , (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+
+        .addCase(toggleSubscription.fulfilled , (state , action) => {
+            state.loading = false;
+            state.error = null;
+            state.subscription = action.payload.data;  // Assuming the API returns the updated subscription status
+        })
+
+        .addCase(toggleSubscription.rejected , (state , action) => {
+            state.loading = false;
+            state.error = action.payload.data || "Failed to toggle subscription status";
+        })
     }
 })
 

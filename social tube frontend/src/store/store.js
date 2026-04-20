@@ -15,6 +15,6 @@ export const store = configureStore({
         comment: commentReducer,
         playlist: playlistReducer,
         like: likeReducer,
-        subscription: subscriptionReducer
+        subscription: subscriptionReducer,
     }
 })

@@ -7,26 +7,33 @@ import {
   MessagesSquare,
   Bell,
   Video,
-  PenLine
+  PenLine,
+  User,
+  LogOut
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../features/userFeatures/userThunks";
 
-export default function Navbar({toggleMenu}) {
+export default function Navbar({ toggleMenu }) {
   const [openCreate, setOpenCreate] = useState(false);
   const [avatar, setAvatar] = useState("https://i.pinimg.com/736x/b0/8e/19/b08e19da8ac6cec9cc3630d4b79893a0.jpg");
 
-  const isAuthenticated = useSelector( (state) => state.user.isAuthenticated);
-  const user = useSelector( (state) => state.user.user);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const user = useSelector((state) => state.user.user);
 
   const navigate = useNavigate();
+
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
 
-    if(user){
+    if (user) {
       setAvatar(user.avatar);
-      
+
     }
   }, [user]);
 
@@ -43,23 +50,30 @@ export default function Navbar({toggleMenu}) {
     navigate("/create-post");
   }
 
- return (
+  const handleLogout = () => {
+
+    dispatch(logoutUser());
+    setOpenMenu(false);
+    
+  }
+
+  return (
     <nav className="sticky top-0 z-50 w-full backdrop-blur-xl bg-black/60 border-b border-white/10">
       <div className="h-16 px-4 flex items-center justify-between gap-4">
 
         {/* LEFT */}
         <div className="flex items-center gap-3">
-          <button 
-          className="p-2 rounded-full hover:bg-white/10"
-          onClick={toggleMenu}
+          <button
+            className="p-2 rounded-full hover:bg-white/10"
+            onClick={toggleMenu}
           >
             <Menu className="w-6 h-6 text-white" />
           </button>
 
-          <NavLink to = "/">
-          <div className="text-white font-semibold text-lg">
-            SocialTube
-          </div>
+          <NavLink to="/">
+            <div className="text-white font-semibold text-lg">
+              SocialTube
+            </div>
           </NavLink>
         </div>
 
@@ -94,22 +108,22 @@ export default function Navbar({toggleMenu}) {
 
             {openCreate && (
               <div className="absolute test-white right-0 mt-2 w-48 bg-[#111111] border border-[#1f1f1f] rounded-xl overflow-hidden">
-              
-              
+
+
                 <button
-                 className="w-full text-left px-4 py-3 text-zinc-200 hover:bg-white/10 flex items-center gap-3 bg-transparent border-none outline-none"
-                 onClick={ handelUploadVideo}
-                 >
+                  className="w-full text-left px-4 py-3 text-zinc-200 hover:bg-white/10 flex items-center gap-3 bg-transparent border-none outline-none"
+                  onClick={handelUploadVideo}
+                >
                   <Video className=" text-zinc-200 w-5 h-5" />
                   Upload video
                 </button>
-               
 
-              
-                <button 
-                 className="w-full text-left px-4 py-3 text-zinc-200 hover:bg-white/10 flex items-center gap-3 bg-transparent border-none outline-none"
-                 onClick={handelPostTweet}
-                 >
+
+
+                <button
+                  className="w-full text-left px-4 py-3 text-zinc-200 hover:bg-white/10 flex items-center gap-3 bg-transparent border-none outline-none"
+                  onClick={handelPostTweet}
+                >
                   <MessagesSquare className=" text-zinc-200 w-5 h-5" />
                   Post tweet
                 </button>
@@ -124,21 +138,61 @@ export default function Navbar({toggleMenu}) {
           </button>
 
           {/* Avatar / Sign in */}
-         
+
           <div className="flex items-center gap-4">
-          
-           {isAuthenticated ? (<div className="w-9 h-9 rounded-full overflow-hidden border border-[#1f1f1f]">
-            <img
-              src={avatar}
-              className="w-full h-full object-cover"
-            />
-          </div>) : (<NavLink to = "/sign-in"><button
-            className="  px-5 py-1.5  text-sm font-medium  text-white  rounded-full  border border-zinc-700  bg-zinc-900/60  backdrop-blur-md
+
+            {isAuthenticated ?
+              (
+
+                <div className="relative">
+                  <div
+                    onClick={() => setOpenMenu(prev => !prev)}
+                    className="w-9 h-9 rounded-full overflow-hidden border border-[#1f1f1f] cursor-pointer"
+                  >
+                    <img
+                      src={avatar}
+                      className="w-full h-full object-cover"
+                    />
+
+                  </div>
+
+                  {openMenu && (
+                    <div className="absolute right-0 mt-2 w-44 bg-zinc-900 border border-zinc-700 rounded-xl shadow-lg z-50 overflow-hidden">
+
+                      <NavLink
+                        to="/channel"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-zinc-800 transition"
+                      >
+                        <User size={16} />
+                        My Channel
+                      </NavLink>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-zinc-800 transition"
+                      >
+                        <LogOut size={16} />
+                        Logout
+                      </button>
+
+                    </div>
+                  )}
+
+
+                </div>
+
+              )
+
+              :
+
+              (<NavLink to="/sign-in"><button
+                className="  px-5 py-1.5  text-sm font-medium  text-white  rounded-full  border border-zinc-700  bg-zinc-900/60  backdrop-blur-md
                   hover:bg-zinc-800  hover:border-zinc-500  active:scale-95  transition-all duration-200  shadow-md "
-          >
-            Sign In
-          </button>
-          </NavLink>)}
+              >
+                Sign In
+              </button>
+              </NavLink>
+              )}
 
           </div>
 

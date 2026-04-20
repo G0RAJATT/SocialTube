@@ -34,8 +34,6 @@ export default function VideoPage() {
 
     if (!viewed) {
 
-
-
       const timer = setTimeout(() => {
 
         dispatch(increaseViewCount(videoId));
@@ -45,6 +43,7 @@ export default function VideoPage() {
 
       return () => clearTimeout(timer);
     }
+
   }, [videoId])
 
 
@@ -63,6 +62,14 @@ export default function VideoPage() {
   const nextVideo = playlistObj?.[0]?.videos?.[currentIndex + 1]?._id;
 
 
+  useEffect(() => {
+
+    if(playlistId && playlistId!= undefined){
+      return
+    }
+    window.scrollTo(0 , 0);
+
+  },[videoId])
 
   return (
     <div className="w-full bg-black min-h-screen">

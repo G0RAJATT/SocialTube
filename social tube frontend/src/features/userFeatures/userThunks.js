@@ -168,19 +168,17 @@ export const getUserHistory = createAsyncThunk("users/getUserHistory",
     })
 
 
-    // --- toggle subscription --- //
+   // --- Logout user --- //
 
-    export const toggleSubscription = createAsyncThunk("users/toggleSubscription",
-        async ( channelId , thunkAPI) => {
+   export const logoutUser = createAsyncThunk("users/logout",
+    async (_, thunkAPI) => {
 
-            try {
+        try{
 
-                const res = await api.post(`/subscriptions/subscribe/${channelId}`)
-                return res.data;
-                
-            } catch (error) {
-                
-                return thunkAPI.rejectWithValue(error.response?.data || "Something went wrong while fetching user details")
-            }
+            const res = await api.post("/users/logout");
+            return res.data;
+
+        }catch(error){
+            return thunkAPI.rejectWithValue(error.response?.data || "Something went wrong while logging out")
         }
-    )
+    })
