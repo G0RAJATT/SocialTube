@@ -4,6 +4,7 @@ import { use, useEffect } from "react";
 import { getChannelProfile } from "../../features/userFeatures/userThunks";
 import { useParams } from "react-router-dom";
 import { Video } from "lucide-react";
+import { isUserSubscribed } from "../../features/subscription/subscriptionThunk";
 
 
 export default function ChannelPage() {
@@ -17,6 +18,7 @@ export default function ChannelPage() {
     useEffect(()=>{
         
         dispatch(getChannelProfile({ userId : channelId }))
+        dispatch(isUserSubscribed({userId: user?._id , channelId}))
 
         if(user){
             console.log("\n\nUserProfile Details\n\n" , user);

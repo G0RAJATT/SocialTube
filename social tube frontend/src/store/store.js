@@ -5,6 +5,7 @@ import tweetReducer from "../features/tweetFeatures/tweetSlice.js";
 import commentReducer from "../features/commentFeatures/commentSlice.js";
 import playlistReducer from "../features/playlistFeatures/playlistSlice.js";
 import likeReducer from "../features/likeFeatures/likeSlice.js";
+import subscriptionReducer from "../features/subscription/subscritionSlice.js";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         tweet: tweetReducer,
         comment: commentReducer,
         playlist: playlistReducer,
-        like: likeReducer
+        like: likeReducer,
+        subscription: subscriptionReducer
     }
 })

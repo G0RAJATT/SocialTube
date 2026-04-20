@@ -90,7 +90,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 
 // controller to return channel list to which user has subscribed
 const getSubscribedChannels = asyncHandler(async (req, res) => {
-    const { subscriberId } = req.params
+    const { subscriberId } = req.params                        // user id of subscriber
 
      if (!mongoose.isValidObjectId(subscriberId)) {
         throw new ApiError(401, "Invalid video ID")
@@ -134,10 +134,30 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
 
 })
 
+const isUserSubscribedToChannel = asyncHandler(async (req,res) => {
+
+    const { channelId , userId } = req.params
+
+    if (!mongoose.isValidObjectId(channelId) || !mongoose.isValidObjectId(userId)) {
+        throw new ApiError(401, "Invalid video ID or user ID")
+    }
+
+    const isSubscribed = await Subscription.exists({channel: channelId , subscriber: userId})
+
+    if(isSubscribed == null){
+        return res.status(200)
+        .json(new ApiResponse(200, {isSubscribed: false}, "user is not subscribed to channel"))
+    }
+
+    return res.status(200)
+        .json(new ApiResponse(200, {isSubscribed: true}, "user is subscribed to channel"))
+})
+
 
 
 export {
     toggleSubscription,
     getUserChannelSubscribers,
-    getSubscribedChannels
+    getSubscribedChannels,
+    isUserSubscribedToChannel
 }
