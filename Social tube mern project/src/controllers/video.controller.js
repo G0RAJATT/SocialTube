@@ -42,6 +42,9 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const thumbnailLocalPath = req.files?.thumbnail[0]?.path
     const videoLocalPath = req.files?.video[0]?.path
 
+    console.log("thumbnailLocalPath:", thumbnailLocalPath);
+    console.log("videoLocalPath:", videoLocalPath);
+
     // check if thumbnailpath ot videoPath are empty or null
 
     if (!videoLocalPath || videoLocalPath == ("" || undefined)) {
