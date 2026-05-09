@@ -56,6 +56,9 @@ export default function PublishAVideo() {
         formData.append("video", video);
         formData.append("thumbnail", thumbnail);
         formData.append("isPublished", isPublished);
+
+        console.log("Publish button clicked");
+        console.log("Form Data:", formData);
       
         dispatch(publishVideo(formData));
     } 
