@@ -7,7 +7,11 @@ export const publishVideo = createAsyncThunk("videos/publishAVideo",
     async (formData, thunkAPI) => {
 
         try {
+            console.log("formData: " , formData);
+            
             const res = await api.post("/videos", formData)
+            console.log("res.data" , res.data);
+            
             return res.data;
 
         } catch (error) {
