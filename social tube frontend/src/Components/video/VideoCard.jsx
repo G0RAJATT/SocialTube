@@ -26,6 +26,15 @@ export default function VideoCard({ video }) {
   const lastAction = useSelector((state) => state.video.lastAction)
   const dispatch = useDispatch();
 
+  const formatDuration = (durationInSeconds) => {
+  const minutes = Math.floor(durationInSeconds / 60);
+  const seconds = Math.floor(durationInSeconds % 60);
+  
+  // Adds a leading zero to seconds if they are less than 10 (e.g., 2:05 instead of 2:5)
+  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+  
+  return `${minutes}:${formattedSeconds}`;
+};
 
   useEffect(() => {
 
@@ -36,7 +45,7 @@ export default function VideoCard({ video }) {
       //   setVideoId(video._id)
       setVideoId(video._id)
       setThumbnail(video.thumbnail)
-      setDuration(Math.trunc(video.duration * 100) / 100)
+      setDuration(formatDuration(video.duration))
       setTitle(video.title)
       setChannelName(video.owner.fullName)
       setChannelId(video.owner._id)
