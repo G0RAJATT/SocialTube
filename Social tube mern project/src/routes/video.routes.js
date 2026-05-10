@@ -25,8 +25,7 @@ router.route('/increase-view/:videoId').patch(increaseViewCount)
 
 router.use(verifyJWT);
 
-router.route('/')
-    .post(
+router.route('/').post(
         upload.fields(
             [
                 {

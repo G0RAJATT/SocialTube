@@ -50,13 +50,11 @@ export default function PublishAVideo() {
     const handelPublishVideo = async (e) => {
         e.preventDefault();
         // Handle video publishing logic here
-        const formData = {
-          title,
-          description,
-          video,
-          thumbnail,
-          isPublished
-        } 
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        if(video) formData.append("video", video);
+        if(thumbnail) formData.append("thumbnail", thumbnail);
         
         
 

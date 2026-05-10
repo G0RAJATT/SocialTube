@@ -16,6 +16,34 @@ cloudinary.config({
 });
 
 
+// const uploadOnCloudinary = async (localFilePath) => {
+    
+
+//     try {
+//         if (!localFilePath){ 
+            
+//             console.log(localFilePath);
+            
+//             return null}
+//         //upload the file on cloudinary
+//         const response = await cloudinary.uploader.upload(localFilePath, { resource_type: "auto" })
+//         console.log("this file is uploaded on cloudinary", response);
+//         fs.unlinkSync(localFilePath);
+//         return response;
+
+//     } catch (error) {
+
+//         fs.unlinkSync(localFilePath); //remove locally stored file 
+//         console.log(error.message);
+        
+//         console.log("File is not uploaded on cloudinary");
+//         return null;
+        
+//     }
+// }
+
+
+
 const uploadOnCloudinary = async (localFilePath) => {
     
 
@@ -26,7 +54,21 @@ const uploadOnCloudinary = async (localFilePath) => {
             
             return null}
         //upload the file on cloudinary
-        const response = await cloudinary.uploader.upload(localFilePath, { resource_type: "auto" })
+        const response = await new Promise((resolve, reject) => {
+
+            cloudinary.uploader.upload_large(
+                localFilePath,
+                {
+                    resource_type: "auto",
+                    chunk_size: 6000000, // 6MB chunk size
+                },
+                (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                }
+            )
+
+        }) 
         console.log("this file is uploaded on cloudinary", response);
         fs.unlinkSync(localFilePath);
         return response;
@@ -41,7 +83,6 @@ const uploadOnCloudinary = async (localFilePath) => {
         
     }
 }
-
 
 // const uploadOnCloudinary = async (fileBuffer) => {
 
