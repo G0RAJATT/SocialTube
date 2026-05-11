@@ -20,7 +20,7 @@ export default function VideoPanel() {
 
     const Empty = ""
 
-    dispatch(getAllVideos())
+    dispatch(getAllVideos(page))
 
   } , [])
 

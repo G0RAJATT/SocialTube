@@ -62,7 +62,7 @@ export const getAllVideos = createAsyncThunk("videos/getAllVideos" ,
 
         try {
             
-            const res = await api.get(`/videos/page=${page}&limit=12`)          
+            const res = await api.get(`/videos?page=${page}&limit=12`)          
             return res.data;
 
         } catch (error) {
