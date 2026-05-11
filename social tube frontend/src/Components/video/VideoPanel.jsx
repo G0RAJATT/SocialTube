@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getAllVideos } from "../../features/videoFeatures/videoThunks";
 import VideoCard from "./VideoCard";
 
@@ -12,7 +12,7 @@ export default function VideoPanel() {
   const hasMore = useSelector( (state) => state.video.hasMore) 
   const currentPage = useSelector( (state) => state.video.currentPage)
 
-  const page = currentPage || 1;
+  const [page , setPage] = useState(1);
 
   const dispatch = useDispatch()
 
@@ -20,9 +20,11 @@ export default function VideoPanel() {
 
     const Empty = ""
 
-    dispatch(getAllVideos(page))
+    if(AllVideos.length === 0 ) {
+    dispatch(getAllVideos(1))
+    }
 
-  } , [])
+  } , [page])
 
   const observer = useRef();
 
@@ -35,7 +37,8 @@ export default function VideoPanel() {
     observer.current = new IntersectionObserver( entries => {
 
       if(entries[0].isIntersecting && hasMore){
-        dispatch(getAllVideos(page + 1));
+        setPage(prevPage => prevPage + 1);
+        dispatch(getAllVideos(page));
       }
     })
 

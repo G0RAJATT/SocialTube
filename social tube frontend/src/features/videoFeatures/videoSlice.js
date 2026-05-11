@@ -122,9 +122,14 @@ const videoSlice = createSlice({
 
             state.loading = false;
             state.error = null;
-            state.AllVideos.push(...action.payload.data.videos);
             state.hasMore = action.payload.data.hasMore;
             state.currentPage = action.payload.data.currentPage;
+
+            if(state.currentPage === 1){
+                state.AllVideos = action.payload.data.videos;
+            } else {
+                state.AllVideos = [...state.AllVideos, ...action.payload.data.videos];
+            }
             state.lastAction = 'getAllVideos'
 
             

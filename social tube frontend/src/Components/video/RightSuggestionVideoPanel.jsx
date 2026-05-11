@@ -8,14 +8,16 @@ export default function RightVideoSuggestionPanel() {
 
 
   const AllVideos = useSelector( (state) => state.video.AllVideos);
+  const suggestionVideos = AllVideos.slice(0, 10); // Get the first 10 videos for suggestions
 
   const dispatch = useDispatch();
  
   useEffect( () => {
 
-    const Empty = "";
-
-    dispatch(getAllVideos(Empty))
+    if(AllVideos.length === 0){
+      dispatch(getAllVideos(1));
+    }
+    
   },[]
 )
 
@@ -26,7 +28,7 @@ export default function RightVideoSuggestionPanel() {
 
       {/* Suggestions List */}
     
-    {AllVideos.map( (video) => (<SuggestionVideoCard key={video._id} video={video}></SuggestionVideoCard>))}
+    {suggestionVideos.map( (video) => (<SuggestionVideoCard key={video._id} video={video}></SuggestionVideoCard>))}
      
     </div>
   );
