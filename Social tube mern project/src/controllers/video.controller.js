@@ -6,22 +6,41 @@ import Video from "../models/video.model.js";
 import User from "../models/user.model.js";
 
 
-const getAllVideos = asyncHandler(async (req,res) =>{
+const getAllVideos = asyncHandler(async (req, res) => {
 
-    const videos = await Video.find({}).populate("owner", "fullName username avatar").sort({ createdAt: -1 }).lean();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 12;
 
-    if(!videos){
+    const skip = (page - 1) * limit;
+
+
+    const videos = await Video.find({})
+        .populate("owner", "fullName username avatar")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+    const total = await Video.countDocuments();
+
+    if (!videos) {
         throw new ApiError(500, "Something went wrong while fetching videos")
     }
 
-    if(videos == ""){
-        res.status(200).json(new ApiResponse(200 , "" , "There is no video"))
+    if (videos == "") {
+        res.status(200).json(new ApiResponse(200, "", "There is no video"))
     }
 
-    
 
     res.status(200)
-    .json(new ApiResponse(200 , videos , "All Videos fethed Successfully"))
+        .json(new ApiResponse(200,
+            {
+                videos,
+                currentPage: page,
+                totalPages: Math.ceil(total / limit),
+                hasMore: page * limit < total
+            },
+            "All Videos fethed Successfully"))
 
 })
 
@@ -117,36 +136,38 @@ const getVideoById = asyncHandler(async (req, res) => {
         }
 
 
-        if(req?.user){
+        if (req?.user) {
 
-        console.log("User logged In: " , req?.user);
-            
+            console.log("User logged In: ", req?.user);
 
-        await User.findByIdAndUpdate( req?.user?._id ,
-        {
-            $pull: { watchHistory: videoId}
+
+            await User.findByIdAndUpdate(req?.user?._id,
+                {
+                    $pull: { watchHistory: videoId }
+                }
+            )
+
+            await User.findByIdAndUpdate(req?.user?._id,
+                {
+                    $push: {
+                        watchHistory: {
+                            $each: [videoId],
+                            $position: 0,
+                            $slice: 50
+                        }
+                    },
+
+
+                },
+                {
+                    new: true
+                }
+            )
+
         }
-       )
 
-        await User.findByIdAndUpdate( req?.user?._id ,
-        {
-            $push: { watchHistory: {
-                $each: [videoId],
-                $position:0,
-                $slice:50
-            }},
 
-            
-        },
-        {
-            new:true
-        }
-       )
 
-    }
-       
-
-        
 
         return res.status(200)
             .json(new ApiResponse(200, video, "Video fetched successsfully"))
@@ -182,8 +203,8 @@ const updateVideo = asyncHandler(async (req, res) => {
         //get thumbnail
         const thumbnailLocalPath = req.file?.path
 
-        console.log("\n----thumbnailLocalPath-----\n",thumbnailLocalPath);
-        
+        console.log("\n----thumbnailLocalPath-----\n", thumbnailLocalPath);
+
 
         //check thumbnail ,  thumbnail is not necessary|| is not sent , set empty ""
         if (!thumbnailLocalPath) {
@@ -232,7 +253,7 @@ const toggelPublishStatus = asyncHandler(async (req, res) => {
         const video = await Video.findById(videoId)
 
         video.isPublished = !video.isPublished;
-        await video.save({ validateBeforeSave:false})
+        await video.save({ validateBeforeSave: false })
 
         return res.status(200)
             .json(new ApiResponse(200, video, "Video publish status is toggeled"))
@@ -242,9 +263,9 @@ const toggelPublishStatus = asyncHandler(async (req, res) => {
     }
 })
 
-const deleteVideo = asyncHandler(async (req,res) =>{
+const deleteVideo = asyncHandler(async (req, res) => {
 
-     const { videoId } = req.params
+    const { videoId } = req.params
 
     if (!videoId) {
         throw new ApiError(401, "VideoId is necessary")
@@ -252,22 +273,22 @@ const deleteVideo = asyncHandler(async (req,res) =>{
 
     // Also Delete video andthumbnail from cloudinary side
 
-    await Video.findByIdAndDelete( videoId)
+    await Video.findByIdAndDelete(videoId)
 
     res.status(201)
-    .json(new ApiResponse(201 , videoId , "Video deleted successfully"))
-    
+        .json(new ApiResponse(201, videoId, "Video deleted successfully"))
+
 })
 
 const getOwner = asyncHandler(async (req, res) => {
 
-    const {videoId} = req.params
+    const { videoId } = req.params
 
     const video = await Video.findById(videoId).populate("owner", "fullName username avatar").lean()
 
-   
 
-    console.log("\n------video------\n" , video)
+
+    console.log("\n------video------\n", video)
 
 
 
@@ -275,21 +296,21 @@ const getOwner = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, video, "fetch"))
 })
 
-const increaseViewCount = asyncHandler(async (req , res) => {
+const increaseViewCount = asyncHandler(async (req, res) => {
 
-     const {videoId} = req.params;
+    const { videoId } = req.params;
 
-     const video = await Video.findByIdAndUpdate(videoId ,
+    const video = await Video.findByIdAndUpdate(videoId,
         {
-            $inc: { view: 1 },  
+            $inc: { view: 1 },
         },
         {
             new: true
         }
-     )
+    )
 
-     res.status(200)
-     .json(new ApiResponse(200 , video , "View count increased"))
+    res.status(200)
+        .json(new ApiResponse(200, video, "View count increased"))
 
 
 

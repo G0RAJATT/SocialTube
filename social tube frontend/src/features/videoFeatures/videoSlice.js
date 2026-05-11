@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { getAllVideos, getAVideo, increaseViewCount, publishVideo, updateVideo } from "./videoThunks";
 
 
@@ -9,7 +9,9 @@ const initialState = {
     loading: false,
     error: null,
     lastAction: null,
-    openMenuVideoId:null
+    openMenuVideoId:null,
+    hasMore: null,
+    currentPage: 1,
 
 }
 
@@ -120,7 +122,9 @@ const videoSlice = createSlice({
 
             state.loading = false;
             state.error = null;
-            state.AllVideos = action.payload.data;
+            state.AllVideos.push(...action.payload.data.videos);
+            state.hasMore = action.payload.data.hasMore;
+            state.currentPage = action.payload.data.currentPage;
             state.lastAction = 'getAllVideos'
 
             

@@ -1,13 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import VideoCard from "./VideoCard";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { getAllVideos } from "../../features/videoFeatures/videoThunks";
+import VideoCard from "./VideoCard";
 
 
 export default function VideoPanel() {
 
 
   const AllVideos = useSelector( (state) => state.video.AllVideos)
+  const loading = useSelector( (state) => state.video.loading)
+  const hasMore = useSelector( (state) => state.video.hasMore) 
+  const currentPage = useSelector( (state) => state.video.currentPage)
+
+  const page = currentPage || 1;
 
   const dispatch = useDispatch()
 
@@ -15,9 +20,29 @@ export default function VideoPanel() {
 
     const Empty = ""
 
-    dispatch(getAllVideos(Empty))
+    dispatch(getAllVideos())
 
   } , [])
+
+  const observer = useRef();
+
+  const lastVideoRef = useCallback( node => {
+
+    if(loading || !hasMore) return;
+
+    if(observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver( entries => {
+
+      if(entries[0].isIntersecting && hasMore){
+        dispatch(getAllVideos(page + 1));
+      }
+    })
+
+    if(node) {
+      observer.current.observe(node);
+    }
+  },[loading , hasMore , page])
 
 
 
@@ -36,7 +61,15 @@ export default function VideoPanel() {
 >
         {/* Temporary static cards */}
 
-        { AllVideos.map((video) => ( <VideoCard video={video} key={video._id}></VideoCard>))}
+        { AllVideos.map((video , index) => {
+
+          if(AllVideos.length === index + 1){
+
+            return <VideoCard ref={lastVideoRef} key={video._id} video={video} />
+          }
+
+          return <VideoCard key={video._id} video={video} />
+        })}
 
        
         

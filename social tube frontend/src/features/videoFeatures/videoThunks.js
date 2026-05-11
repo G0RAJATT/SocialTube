@@ -58,11 +58,11 @@ export const getAVideo = createAsyncThunk("videos/getVideo" ,
 // -- Get All Videos -- // 
 
 export const getAllVideos = createAsyncThunk("videos/getAllVideos" ,
-    async (Empty , thunkAPI) => {
+    async ( page = 1 , thunkAPI) => {
 
         try {
             
-            const res = await api.get(`/videos/`)          
+            const res = await api.get(`/videos/page=${page}&limit=12`)          
             return res.data;
 
         } catch (error) {

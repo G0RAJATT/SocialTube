@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getAVideo } from "../../features/videoFeatures/videoThunks";
@@ -6,7 +6,7 @@ import { togglePlaylistModal } from "../../features/playlistFeatures/playlistSli
 import { getUsersPlaylists } from "../../features/playlistFeatures/playlistThunk";
 import { closeVideoMenu, openVideoMenu } from "../../features/videoFeatures/videoSlice"
 
-export default function VideoCard({ video }) {
+const VideoCard = forwardRef(({ video }, ref) => {
 
 
   const [videoId, setVideoId] = useState("");
@@ -125,7 +125,7 @@ export default function VideoCard({ video }) {
 
  
   return (
-    <div className={`w-full max-w-4xl transition-transform duration-200 hover:-translate-y-1 relative ${openMenuVideoId === video?._id ? "z-50" : "z-0"}`}>
+    <div ref={ref} className={`w-full max-w-4xl transition-transform duration-200 hover:-translate-y-1 relative ${openMenuVideoId === video?._id ? "z-50" : "z-0"}`}>
 
       {/* Thumbnail Section */}
       <NavLink to={`/video/${videoId}`}>
@@ -230,4 +230,7 @@ export default function VideoCard({ video }) {
     </div>
   );
 }
+)
 
+
+export default VideoCard;
