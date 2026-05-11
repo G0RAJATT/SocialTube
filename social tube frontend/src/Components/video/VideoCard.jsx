@@ -132,6 +132,7 @@ const VideoCard = forwardRef(({ video }, ref) => {
         <div className="relative  overflow-hidden bg-zinc-900 group md:rounded-xl">
 
           <img
+            loading="lazy"
             src={thumbnail}
             alt="thumbnail"
             className="w-full h-64 object-cover group-hover:scale-105 transition duration-300"

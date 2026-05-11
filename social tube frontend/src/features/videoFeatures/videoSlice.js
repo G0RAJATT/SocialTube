@@ -132,7 +132,6 @@ const videoSlice = createSlice({
             }
             state.lastAction = 'getAllVideos'
 
-            
         })
 
         .addCase(getAllVideos.rejected , (state , action) => {
